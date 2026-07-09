@@ -27,7 +27,8 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
   // API запросы — только сеть, никогда не кэшируем
-  if (url.hostname === 'api.dalam.world') {
+  // https://api-asm-proxy-srv62.dalam.world/dw.asm
+  if (url.hostname === 'api-asm-proxy-srv62.dalam.world') {
     e.respondWith(fetch(e.request));
     return;
   }
