@@ -1,8 +1,8 @@
 {
   "name": "Dalam World",
-  "short_name": "DalamWorld",
+  "short_name": "Dalam World",
   "description": "Dalam World — Personal Cabinet",
-  "start_url": "https://dalam.world/.dw/pwa/",
+  "start_url": "https://app.dalam.world/",
   "display": "standalone",
   "background_color": "#0f0d0a",
   "theme_color": "#c9943a",
