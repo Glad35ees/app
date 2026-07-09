@@ -1236,7 +1236,7 @@ function renderChars(chars) {
 // ══════════════════════════════════════
 // LOAD CHARACTER
 // ══════════════════════════════════════
-function loadChar(objId, name, icon) {
+/*function loadChar(objId, name, icon) {
     currentObjId    = objId;
     currentCharName = name;
     // Сохраняем сессию
@@ -1266,6 +1266,55 @@ function loadChar(objId, name, icon) {
         }
     }).catch(console.error);
 }
+*/
+
+
+    // ══════════════════════════════════════
+// LOAD CHARACTER
+// ══════════════════════════════════════
+function loadChar(objId, name, icon) {
+    currentObjId    = objId;
+    currentCharName = name;
+    // Сохраняем сессию
+    localStorage.setItem('dw_session', JSON.stringify({ objId: objId, name: name, icon: icon || '⚔️' }));
+    show('screen-stats');
+
+    document.getElementById('stat-avatar').innerText = icon || '⚔️';
+    document.getElementById('stat-name').innerText   = name;
+    document.getElementById('stat-class').innerText  = '...';
+
+    const box = document.getElementById('chat-box');
+    box.innerHTML = `<div class="msg char loading" id="msg-init">
+        <div class="msg-name">${esc(name.toUpperCase())}</div>
+        ${t('loading_ai')}
+    </div>`;
+
+    // 1. Запрос характеристик (загружается отдельно)
+    fetch(API + '?action=get_char_stats&obj_id=' + objId + '&lang=' + currentLang)
+        .then(r => r.json())
+        .then(stats => {
+            if (stats.success) renderStats(stats);
+        })
+        .catch(console.error);
+
+    // 2. Запрос совета ИИ (загружается отдельно, дольше)
+    fetch(API + '?action=get_ai_advice&obj_id=' + objId + '&lang=' + currentLang)
+        .then(r => r.json())
+        .then(ai => {
+            const reply = ai.advice || ai.reply;
+            const init  = document.getElementById('msg-init');
+            if (init) {
+                init.classList.remove('loading');
+                init.innerHTML = `<div class="msg-name">${esc(name.toUpperCase())}</div>${esc(reply || '...')}`;
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            const init = document.getElementById('msg-init');
+            if (init) init.classList.remove('loading');
+        });
+}
+
 
 // ══════════════════════════════════════
 // RENDER STATS
