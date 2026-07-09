@@ -348,8 +348,12 @@
         .msg.loading { opacity: 0.5; font-style: italic; color: var(--text-dim); }
 
         .chat-input-row {
+            display: none;
+             /* ── 
             display: flex;
             border-top: 1px solid var(--border);
+            ── */
+            
         }
         #chat-input {
             flex: 1;
@@ -491,9 +495,6 @@
         }
         #offline-bar.show { transform: translateY(0); }
 
-        #chat-input-row {
-         display: none;
-             }
         
         /* BOTTOM NAV */
         #bottom-nav {
